@@ -169,7 +169,7 @@
     <div id="errorTooltip" class="error-tooltip" role="alert"></div>
 
     <script>
-        const API = 'http://localhost:4000';
+        const API = window.location.origin;
         const token = localStorage.getItem('rd_token');
         if (!token) window.location.href = 'login.html';
         const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
@@ -205,3 +205,4 @@
 </body>
 
 </html>
+

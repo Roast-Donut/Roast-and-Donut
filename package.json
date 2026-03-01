@@ -6,8 +6,12 @@
     "scripts": {
         "dev": "nodemon server.js",
         "start": "node server.js",
+        "build": "echo 'No build step required for simple HTML serving'",
         "client": "cd client && npm run dev",
         "dev:full": "concurrently \"npm run dev\" \"npm run client\""
+    },
+    "engines": {
+        "node": ">=18.0.0"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",

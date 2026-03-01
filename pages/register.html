@@ -157,7 +157,7 @@
     <div id="errorTooltip" class="error-tooltip" role="alert" aria-live="polite"></div>
 
     <script>
-        const API = 'http://localhost:4000';
+        const API = window.location.origin;
         const tooltip = document.getElementById('errorTooltip');
 
         function showError(msg) {
@@ -224,3 +224,4 @@
 </body>
 
 </html>
+

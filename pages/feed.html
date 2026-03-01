@@ -256,7 +256,7 @@
     </main>
 
     <script>
-        const API = 'http://localhost:4000';
+        const API = window.location.origin;
         const token = localStorage.getItem('rd_token');
         const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
 
@@ -453,3 +453,4 @@
 </body>
 
 </html>
+

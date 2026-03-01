@@ -231,7 +231,7 @@
     </main>
 
     <script>
-        const API = 'http://localhost:4000';
+        const API = window.location.origin;
         const token = localStorage.getItem('rd_token');
         const headers = token ? { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } : {};
         const postId = new URLSearchParams(window.location.search).get('id');
@@ -340,3 +340,4 @@
 </body>
 
 </html>
+
