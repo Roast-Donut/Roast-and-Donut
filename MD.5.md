@@ -249,6 +249,14 @@ All pages are served from `/pages/` as static HTML, fully connected to the backe
 - ✅ Obsidian error tooltips
 - ✅ Status Orbs on user presence
 
+### 🛡️ Deployment & Security Fix (Render)
+- **Problem**: Default Helmet CSP was blocking Tailwind CDN, Google Fonts, and all inline JavaScript logic, effectively "killing" the site's interactivity and styling.
+- **Fix**: Custom Helmet configuration implemented in `server.js` to allow:
+    - `script-src`: `'self'`, `'unsafe-inline'`, `https://cdn.tailwindcss.com`
+    - `style-src`: `'self'`, `'unsafe-inline'`, `https://fonts.googleapis.com`
+    - `font-src`: `https://fonts.gstatic.com`
+    - `img-src`: `https://*` (allows external coffee/pastry image assets)
+
 ---
 
-*Last Updated: 2026-03-01 21:55 (Project: Roast & Donut)*
+*Last Updated: 2026-03-02 00:35 (Project: Roast & Donut)*
