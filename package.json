@@ -1,0 +1,28 @@
+{
+    "name": "roast-and-donut",
+    "version": "1.0.0",
+    "description": "Roast & Donut — social platform backend + React frontend",
+    "main": "server.js",
+    "scripts": {
+        "dev": "nodemon server.js",
+        "start": "node server.js",
+        "client": "cd client && npm run dev",
+        "dev:full": "concurrently \"npm run dev\" \"npm run client\""
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.1",
+        "helmet": "^8.0.0",
+        "jsonwebtoken": "^9.0.2",
+        "morgan": "^1.10.0",
+        "pg": "^8.13.1",
+        "uuid": "^11.0.5"
+    },
+    "devDependencies": {
+        "concurrently": "^9.1.0",
+        "nodemon": "^3.1.7"
+    }
+}

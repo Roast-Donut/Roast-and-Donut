@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account — ROAST AND DONUT</title>
+    <meta name="description" content="Join Roast and Donut. 21+ only." />
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = { theme: { extend: { colors: { "primary": "#e62a19", "border-gray": "#E5E5E5", "neutral-gray": "#737373" } } } }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 400 !important;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, "SF Pro Rounded", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .interactive-element {
+            color: #737373;
+            transition: color 0.2s linear;
+            cursor: pointer;
+        }
+
+        .interactive-element:hover {
+            color: #000;
+        }
+
+        .error-tooltip {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(25px) saturate(150%);
+            border: 1px solid transparent;
+            background-clip: padding-box, border-box;
+            background-image: linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9)), linear-gradient(135deg, #fff 0%, #434343 50%, #000 100%);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: #E5E5E5;
+            font-size: 14px;
+            text-align: center;
+            max-width: 320px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 10px 15px -3px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .error-tooltip.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-entry {
+            animation: fadeSlideUp 0.5s ease forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="w-full max-w-sm px-6">
+        <div class="text-center mb-10 animate-entry">
+            <a href="index.html" class="inline-flex items-center gap-3 interactive-element" aria-label="Home">
+                <span class="material-symbols-outlined text-primary text-3xl">coffee</span>
+                <span class="text-2xl tracking-tight text-slate-900">ROAST AND DONUT</span>
+            </a>
+        </div>
+
+        <div class="bg-white border border-border-gray rounded-2xl p-8 animate-entry" style="animation-delay: 0.1s;">
+            <h1 class="text-xl text-slate-900 text-center mb-1">Create your account</h1>
+            <p class="text-sm text-neutral-gray text-center mb-8">Join the conversation. 21+ only.</p>
+
+            <form id="registerForm" class="space-y-5" novalidate>
+                <div>
+                    <label for="email"
+                        class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Email</label>
+                    <input id="email" name="email" type="email" required autocomplete="email"
+                        class="w-full border border-border-gray rounded-lg px-4 py-2.5 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder:text-neutral-gray/50"
+                        placeholder="you@example.com" />
+                </div>
+                <div>
+                    <label for="password"
+                        class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Password</label>
+                    <input id="password" name="password" type="password" required autocomplete="new-password"
+                        class="w-full border border-border-gray rounded-lg px-4 py-2.5 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder:text-neutral-gray/50"
+                        placeholder="Min 8 characters" />
+                </div>
+                <div>
+                    <label for="confirmPassword"
+                        class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Confirm
+                        Password</label>
+                    <input id="confirmPassword" name="confirmPassword" type="password" required
+                        class="w-full border border-border-gray rounded-lg px-4 py-2.5 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder:text-neutral-gray/50"
+                        placeholder="••••••••" />
+                </div>
+                <div>
+                    <label for="birthdate" class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Date
+                        of Birth</label>
+                    <input id="birthdate" name="birthdate" type="date" required
+                        class="w-full border border-border-gray rounded-lg px-4 py-2.5 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30" />
+                </div>
+                <div>
+                    <label for="country"
+                        class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Country</label>
+                    <input id="country" name="country" type="text"
+                        class="w-full border border-border-gray rounded-lg px-4 py-2.5 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder:text-neutral-gray/50"
+                        placeholder="Optional" />
+                </div>
+                <button type="submit" id="registerBtn"
+                    class="w-full bg-primary text-white py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors">
+                    Create Account
+                </button>
+            </form>
+        </div>
+
+        <p class="text-xs text-neutral-gray text-center mt-6 animate-entry" style="animation-delay: 0.2s;">
+            Already have an account? <a href="login.html" class="interactive-element">Log in</a>
+        </p>
+    </main>
+
+    <div id="errorTooltip" class="error-tooltip" role="alert" aria-live="polite"></div>
+
+    <script>
+        const API = 'http://localhost:4000';
+        const tooltip = document.getElementById('errorTooltip');
+
+        function showError(msg) {
+            tooltip.textContent = msg;
+            tooltip.classList.add('visible');
+            setTimeout(() => tooltip.classList.remove('visible'), 4000);
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('registerBtn');
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const birthdate = document.getElementById('birthdate').value;
+            const country = document.getElementById('country').value.trim();
+
+            // Client-side age gate
+            if (birthdate) {
+                const age = (new Date() - new Date(birthdate)) / (365.25 * 24 * 60 * 60 * 1000);
+                if (age < 21) {
+                    window.location.href = 'age-gate.html';
+                    return;
+                }
+            }
+
+            if (password !== confirmPassword) {
+                showError('Passwords do not match.');
+                return;
+            }
+            if (password.length < 8) {
+                showError('Password must be at least 8 characters.');
+                return;
+            }
+
+            btn.textContent = 'Creating...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${API}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, birthdate: birthdate || null, country: country || null })
+                });
+                const data = await res.json();
+
+                if (!res.ok) {
+                    showError(data.error || 'Registration failed.');
+                    btn.textContent = 'Create Account';
+                    btn.disabled = false;
+                    return;
+                }
+
+                localStorage.setItem('rd_token', data.token);
+                localStorage.setItem('rd_user', JSON.stringify(data.user));
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                showError('Something went wrong. The engine is resetting.');
+                btn.textContent = 'Create Account';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy & Blocks — ROAST AND DONUT</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = { theme: { extend: { colors: { "primary": "#e62a19", "border-gray": "#E5E5E5", "neutral-gray": "#737373" } } } }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 400 !important;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .interactive-element {
+            color: #737373;
+            transition: color 0.2s linear;
+            cursor: pointer;
+        }
+
+        .interactive-element:hover {
+            color: #000;
+        }
+
+        .bento-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 16px;
+        }
+
+        .link-grow {
+            position: relative;
+        }
+
+        .link-grow::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: #000;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .link-grow:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .skeleton {
+            background: #F5F5F5;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0));
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-entry {
+            animation: fadeSlideUp 0.5s ease forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <header
+        class="fixed top-0 left-0 right-0 z-50 bg-[#F4F4F4]/80 backdrop-blur-md border-b border-border-gray px-6 py-4 flex items-center justify-between">
+        <a href="dashboard.html" class="flex items-center gap-3 interactive-element"><span
+                class="material-symbols-outlined text-primary text-2xl">coffee</span><span
+                class="text-xl tracking-tight text-slate-900">ROAST AND DONUT</span></a>
+        <a href="dashboard.html" class="text-sm interactive-element link-grow">← Dashboard</a>
+    </header>
+
+    <main class="max-w-2xl mx-auto pt-28 pb-20 px-6">
+        <div class="flex gap-4 mb-6 animate-entry">
+            <a href="settings.html" class="text-sm interactive-element link-grow">Account</a>
+            <a href="settings-privacy.html" class="text-sm text-slate-900 link-grow">Privacy & Blocks</a>
+        </div>
+
+        <!-- Block List -->
+        <section class="bento-card p-8 animate-entry" style="animation-delay: 0.05s;">
+            <h1 class="text-xl text-slate-900 mb-2">Block List</h1>
+            <p class="text-sm text-neutral-gray mb-6">Users you have blocked will not appear in your feed.</p>
+
+            <!-- Block a user -->
+            <form id="blockForm" class="flex gap-2 mb-6">
+                <input id="blockEmail" type="text" placeholder="User ID to block"
+                    class="flex-1 border border-border-gray rounded-lg px-4 py-2 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder:text-neutral-gray/50" />
+                <button type="submit"
+                    class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-black transition-colors">Block</button>
+            </form>
+
+            <div id="blockList" class="space-y-3">
+                <p class="text-xs text-neutral-gray">No blocked users. The block list is managed via user IDs.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const API = 'http://localhost:4000';
+        const token = localStorage.getItem('rd_token');
+        if (!token) window.location.href = 'login.html';
+        const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+
+        document.getElementById('blockForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userId = document.getElementById('blockEmail').value.trim();
+            if (!userId) return;
+            try {
+                await fetch(`${API}/api/user/block/${userId}`, { method: 'POST', headers });
+                document.getElementById('blockEmail').value = '';
+                alert('User blocked.');
+            } catch (err) { console.error('Block error:', err); }
+        });
+    </script>
+</body>
+
+</html>

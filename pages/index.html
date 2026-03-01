@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ROAST AND DONUT — Where Coffee Culture Gets Real</title>
+    <meta name="description" content="ROAST AND DONUT is a minimalist platform for sharp opinions on coffee and pastries. 21+ only."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e62a19",
+                        "bg-light": "#F4F4F4",
+                        "neutral-gray": "#737373",
+                        "border-gray": "#E5E5E5",
+                        "card-bg": "#F5F5F5",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "ui-rounded", "SF Pro Rounded", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-weight: 400 !important; }
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .interactive-element { color: #737373; transition: color 0.2s linear, transform 0.2s ease; cursor: pointer; }
+        .interactive-element:hover { color: #000000; transform: scale(1.02); }
+        .bento-card {
+            background-color: #FFFFFF; border: 1px solid #E5E5E5; border-radius: 16px; padding: 24px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+        }
+        .bento-card:hover { transform: translateY(-4px); border-color: #737373; }
+        .bento-card.secondary { background-color: #F5F5F5; }
+        /* Staggered entrance animation */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-entry { animation: fadeSlideUp 0.5s ease forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.05s; } .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; } .delay-4 { animation-delay: 0.2s; }
+        .delay-5 { animation-delay: 0.25s; } .delay-6 { animation-delay: 0.3s; }
+        .delay-7 { animation-delay: 0.35s; } .delay-8 { animation-delay: 0.4s; }
+        /* Image behaviors */
+        .img-hover { filter: saturate(0.5); transition: filter 0.4s ease, transform 0.4s ease; }
+        .group:hover .img-hover { filter: saturate(1); transform: scale(1.05); }
+        /* Link underline grow from center */
+        .link-grow { position: relative; }
+        .link-grow::after {
+            content: ''; position: absolute; bottom: -2px; left: 50%; width: 0; height: 1px;
+            background: #000; transition: width 0.3s ease, left 0.3s ease;
+        }
+        .link-grow:hover::after { width: 100%; left: 0; }
+    </style>
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "ROAST AND DONUT",
+        "url": "/",
+        "description": "A minimalist platform for sharp opinions on coffee and pastries."
+    }
+    </script>
+</head>
+<body class="min-h-screen">
+
+    <!-- ═══════════════════ HEADER ═══════════════════ -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#F4F4F4]/80 backdrop-blur-md border-b border-border-gray px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-12">
+            <a href="index.html" class="flex items-center gap-3 interactive-element" aria-label="Home">
+                <span class="material-symbols-outlined text-primary text-2xl">coffee</span>
+                <span class="text-xl tracking-tight text-slate-900">ROAST AND DONUT</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+                <a class="text-sm link-grow interactive-element" href="feed.html">Latest</a>
+                <a class="text-sm link-grow interactive-element" href="feed.html?tab=trending">Trending</a>
+                <a class="text-sm link-grow interactive-element" href="#">Archive</a>
+                <a class="text-sm link-grow interactive-element" href="#">About</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="login.html" class="text-sm interactive-element link-grow" aria-label="Log in">Log In</a>
+            <a href="register.html" class="text-sm bg-primary text-white px-5 py-1.5 rounded-lg hover:bg-primary/90 transition-colors" aria-label="Sign up">Sign Up</a>
+        </div>
+    </header>
+
+    <!-- ═══════════════════ HERO ═══════════════════ -->
+    <main class="max-w-7xl mx-auto pt-32 pb-20 px-6">
+        <section class="mb-16 text-center animate-entry">
+            <h1 class="text-4xl text-slate-900 mb-3 tracking-tight">ROAST AND DONUT</h1>
+            <p class="text-neutral-gray text-base max-w-md mx-auto">Minimalist thoughts on coffee and pastries. No filler, no fluff, just the roast.</p>
+            <div class="mt-8 flex items-center justify-center gap-4">
+                <a href="register.html" class="bg-primary text-white px-8 py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors">Get Started</a>
+                <a href="feed.html" class="border border-border-gray px-8 py-2.5 rounded-lg text-sm interactive-element hover:border-slate-400 transition-colors">Browse Feed</a>
+            </div>
+        </section>
+
+        <!-- ═══════════════════ BENTO GRID ═══════════════════ -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[200px]" aria-label="Featured stories">
+
+            <!-- Featured Card (2x2) -->
+            <article class="md:col-span-2 md:row-span-2 bento-card overflow-hidden flex flex-col group p-0 animate-entry delay-1">
+                <div class="h-2/3 bg-cover bg-center overflow-hidden">
+                    <div class="w-full h-full bg-cover bg-center img-hover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAcK27Jpn083h8p_h3-rfUHO9Zg8meN_hJhH8KBN5uLHnuODSliIDwPcnxFE0vdu_mIKsCRb0Z01kpF6PJ8FJKdKjtK_tvTjheX69m7UPANPdcIClA44htHSWeYgh_yJNoCAyHqaZtvxPWS8GnytzcY2m403Ntw_uf1jQPi_iEGWawo8uJ0bmkYzyi5G5bMsYiUVYyuZ79jhOqZDIq6MwvgpFVz9Q25SjD5M2ruDua_9mrXphaXzjCNLDQWFpooNKNiQink3O-aycdc')"></div>
+                </div>
+                <div class="p-6 flex flex-col justify-between flex-grow">
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-primary mb-2 block">Featured</span>
+                        <h2 class="text-2xl text-slate-900 leading-snug interactive-element">The Art of the Perfect Pour Over: Temperature & Timing</h2>
+                    </div>
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="text-xs text-neutral-gray italic">by Sarah · 3m ago</span>
+                        <div class="flex gap-4">
+                            <span class="material-symbols-outlined interactive-element text-xl" aria-label="Star">star</span>
+                            <span class="material-symbols-outlined interactive-element text-xl" aria-label="Comment">chat_bubble</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Quick Bite -->
+            <article class="bento-card secondary flex flex-col justify-between animate-entry delay-2">
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-neutral-gray mb-2 block">Quick Bite</span>
+                    <h3 class="text-lg text-slate-800 interactive-element">Why Ceramic Matters for Heat Retention</h3>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs">by Elena · 1h ago</span>
+                    <span class="material-symbols-outlined interactive-element text-lg" aria-label="Star">star</span>
+                </div>
+            </article>
+
+            <!-- Tall Card (1x2) -->
+            <article class="md:row-span-2 bento-card overflow-hidden flex flex-col group p-0 animate-entry delay-3">
+                <div class="h-1/2 overflow-hidden">
+                    <div class="w-full h-full bg-cover bg-center img-hover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBQ_RpNNcQ7f2fdjJIiyrB9RLm4mOza-kwIHBjQ0DRiMys6t20IZKHvqgq_hIP5Q2gDK8o9kMXwx8BTt6KEwi3oUwTSjqHbSjRpR4noPKmjx3YbE0maOySbIuBqmdeNH2evrhr6OY6qFpYFvMwRLRN5Csz00YLellcAQ58uPaoVGzq4hcfzbfc5ezS8ngNHXiaGoTFgu7EKIzDrIF1FOMUZ2OTMkC-9JqVZ4SVxElz8yoDorngiKQNxq0bvrqHjV_OAgQaTPPTbHIhg')"></div>
+                </div>
+                <div class="p-6 flex flex-col justify-between flex-grow">
+                    <h3 class="text-xl text-slate-900 interactive-element">Morning Rituals: Hidden Cafes in Shibuya</h3>
+                    <div class="mt-4 flex flex-col gap-2">
+                        <span class="text-xs text-neutral-gray">by James · 15m ago</span>
+                        <div class="flex gap-3">
+                            <span class="material-symbols-outlined interactive-element text-xl" aria-label="Star">star</span>
+                            <span class="material-symbols-outlined interactive-element text-xl" aria-label="Share">share</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Image Overlay Card -->
+            <article class="bento-card overflow-hidden relative group p-0 animate-entry delay-4">
+                <div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity img-hover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCCoWyKBjOGnX1JlurbOaiHgIV5k6THB-1RnkGF_9qok1B5aisZ9lwShMetaEHfcE1IXAhxp3HN8G8oS9uFLwkG4WmDqEF2FoJWcqJ8sAeHK7lCU-d5iCOBElQarNcWc71pabsfGhkUi5zhMtcVKKjpcqge0dK5zChZ-3SjjwD0zsUDgKRBN0M6S3w2mEr67F36UqEQOJ6ByF-iK4eX_T5FMxY-7kwaNMwKHBFwlmkHOfpIyG93QOThUvY6Ot8j-7V2fp7uhzte3HBx')"></div>
+                <div class="relative p-6 h-full flex flex-col justify-end bg-gradient-to-t from-white/80 to-transparent">
+                    <h3 class="text-lg text-slate-900 interactive-element">Hydration Levels in Sourdough</h3>
+                    <span class="text-xs mt-1">by Marc · 2h ago</span>
+                </div>
+            </article>
+
+            <!-- Wide Bakery Profile Card (2x1) -->
+            <article class="md:col-span-2 bento-card flex items-center gap-8 animate-entry delay-5">
+                <div class="w-32 h-32 rounded-lg bg-cover bg-center flex-shrink-0 overflow-hidden">
+                    <div class="w-full h-full bg-cover bg-center img-hover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBERFBg8-q3ZiJaIXt2xrTVbbLZWZpLbaxNMwYBHKFZEx2AX9LiqCtrZRHZH5xPrzrf81wL3AjMTLrz8GSRTm8ZUq-2r-yfrq03FlwjedkPU13v_1E0Kzu8MjNXbpLY3tKc_6hobCyTtdT5xEzPgu9wz27JQkSgWlxFrqyUPX9E5D38PM1k9YFdkRN60CBB1AxaWpS_x1FWT-oIN7fcunlZcgEeOdhTUmZ6y70TnS9Eg_Y7n_FD1aD3BYUXSfrJvD1s2vZU0-kYRBHU')"></div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-xs uppercase tracking-widest text-primary mb-1">Bakery Profile</span>
+                    <h2 class="text-2xl text-slate-900 interactive-element">The Rise of the Savory Donut in Oslo</h2>
+                    <p class="text-sm text-neutral-gray mt-2 line-clamp-2">Exploring how local Nordic ingredients are reshaping traditional pastry expectations.</p>
+                    <div class="flex items-center gap-4 mt-4">
+                        <span class="text-xs">by Ingrid · 4h ago</span>
+                        <span class="material-symbols-outlined interactive-element text-xl" aria-label="Star">star</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Quick Bite 2 -->
+            <article class="bento-card secondary flex flex-col justify-between animate-entry delay-6">
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-neutral-gray mb-2 block">Quick Bite</span>
+                    <h3 class="text-lg text-slate-800 interactive-element">Grinder Settings: A Visual Guide</h3>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs">by Tom · 5h ago</span>
+                    <span class="material-symbols-outlined interactive-element text-lg" aria-label="Star">star</span>
+                </div>
+            </article>
+
+            <!-- Espresso Card -->
+            <article class="bento-card overflow-hidden group p-0 animate-entry delay-7">
+                <div class="h-1/2 overflow-hidden">
+                    <div class="w-full h-full bg-cover bg-center img-hover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3XZtLvxr5ChhCwYR7FZ7gbBG87WuIpqa2_s9zG7NoTtvdDsNU6D5nnoZTGpON-VoHbDmrE_m5UxdvdnQN6d5FgNYULGYdV0wKkOsHPwb_tRpoGOpwVhPmp4rhan6WHep6_4Pu6Ox2vzn9S_9mSX1sNRR8v0ZWP7FqADY2vC_XU0ytxlf7f3iD4iIqgWtK1L8I40OIYILEHTIkthcP1UhHG3IZWmjBohOVB117Jqv49hXgL_lZvs6sFI2VEfNQPBMGK5q7WO-O-rsw')"></div>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base text-slate-900 leading-tight interactive-element">Espresso: The First 5 Seconds</h3>
+                    <div class="flex justify-between items-center mt-3">
+                        <span class="text-[10px] uppercase tracking-widest">Scientific Brew</span>
+                        <span class="material-symbols-outlined interactive-element text-lg" aria-label="Comment">chat_bubble</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- ═══════════════════ FOOTER ═══════════════════ -->
+        <footer class="mt-20 border-t border-border-gray pt-10 flex flex-col md:flex-row justify-between items-center text-xs text-neutral-gray tracking-widest uppercase">
+            <div>© 2024 ROAST AND DONUT. ALL RIGHTS RESERVED.</div>
+            <div class="flex gap-8 mt-6 md:mt-0">
+                <a class="link-grow interactive-element" href="#">Instagram</a>
+                <a class="link-grow interactive-element" href="#">Newsletter</a>
+                <a class="link-grow interactive-element" href="#">Contact</a>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>
+

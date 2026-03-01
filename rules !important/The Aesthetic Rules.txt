@@ -1,0 +1,36 @@
+The Aesthetic Rules:
+
+Typography: Apple SF Pro Rounded (or system-ui rounded fallback). Strict global rule: font-weight: 400 or lighter. No bold text anywhere, not even for headers or usernames.
+
+Font Rendering: Must use -webkit-font-smoothing: antialiased to make the text look incredibly crisp and thin.
+
+Backgrounds: Global background is #F4F4F4 with a subtle #E5E5E5 dot matrix.
+
+Bento Cards: Feed items and stat blocks sit in #FFF or #F5F5F5 cards with zero drop-shadow, just a 1px #E5E5E5 border and 12px rounded corners.
+
+Interactivity: All text, icons, and buttons rest at #737373. On hover or click, they transition smoothly to #000000. 💻 The "Weightless" CSS Foundation This is the exact CSS snippet that enforces your typography rules and removes all bolding from the browser's default settings. CSS /* Global Reset & Typography Enforcement */
+
+{ margin: 0; padding: 0; box-sizing: border-box; /* FORCES all text to be un-bolded, no matter what HTML tag is used */ font-weight: 400 !important; }
+body { /* Calls Apple's rounded system font */ font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, sans-serif;
+
+/* The "Crisp" Apple text rendering */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+
+background-color: #F4F4F4; color: #737373;
+
+/* The Infographic Dots */ background-image: radial-gradient(#E5E5E5 1px, transparent 1px); background-size: 24px 24px; }
+
+/* The Bento Grid Cards */ .bento-card { background-color: #FFFFFF; border: 1px solid #E5E5E5; border-radius: 16px; padding: 24px; }
+
+.bento-card.secondary { background-color: #F5F5F5; }
+
+/* The Hover Logic */ .interactive-element { color: #737373; transition: color 0.3s ease, transform 0.2s ease; cursor: pointer; }
+
+.interactive-element:hover { color: #000000; }
+
+📊 How your Data looks in this UI Because we have your schema, we know exactly what text will be flowing through this minimalist design. Imagine a post from your v_trending_feed sitting in one of these cards:
+
+The Post Title: Pulled from title. It won't be a giant bold header; it will just be a slightly larger font size (maybe 20px), perfectly thin and rounded in #737373.
+
+The Meta Data: The author_name and time_display sit quietly at the top in a smaller font size.
+
+The Interactions: Your avg_stars and comment_count sit at the bottom. When you hover your mouse over the star icon, both the icon and the number smoothly shift from #737373 to stark #000000. for a blog\news website title: ROAST AND DONUT

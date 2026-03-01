@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feed — ROAST AND DONUT</title>
+    <meta name="description" content="Browse the latest roasts and donut stories from around the world." />
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = { theme: { extend: { colors: { "primary": "#e62a19", "border-gray": "#E5E5E5", "neutral-gray": "#737373" } } } }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 400 !important;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, "SF Pro Rounded", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .interactive-element {
+            color: #737373;
+            transition: color 0.2s linear, transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .interactive-element:hover {
+            color: #000;
+            transform: scale(1.02);
+        }
+
+        .bento-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 16px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            border-color: #737373;
+        }
+
+        .link-grow {
+            position: relative;
+        }
+
+        .link-grow::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: #000;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .link-grow:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .img-hover {
+            filter: saturate(0.5);
+            transition: filter 0.4s ease, transform 0.4s ease;
+        }
+
+        .group:hover .img-hover {
+            filter: saturate(1);
+            transform: scale(1.05);
+        }
+
+        .skeleton {
+            background: #F5F5F5;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0));
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-entry {
+            animation: fadeSlideUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .tab-active {
+            color: #000;
+            border-bottom: 1px solid #000;
+        }
+
+        .dot-online {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #28CD41;
+            box-shadow: 0 0 8px rgba(40, 205, 65, 0.4);
+            display: inline-block;
+        }
+
+        .dot-offline {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #737373;
+            display: inline-block;
+        }
+
+        .dot-banned {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #FFCC00;
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.4);
+            display: inline-block;
+        }
+
+        .category-pill {
+            display: inline-block;
+            padding: 2px 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid #E5E5E5;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .category-pill:hover,
+        .category-pill.active {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        /* Blueprint progress bar */
+        .progress-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 1px;
+            background: #737373;
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+    </style>
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    { "@context": "https://schema.org", "@type": "CollectionPage", "name": "ROAST AND DONUT Feed", "description": "The latest roasts and donut stories." }
+    </script>
+</head>
+
+<body class="min-h-screen">
+    <!-- Blueprint Loading Bar -->
+    <div id="progressBar" class="progress-line" style="width: 0%;"></div>
+
+    <!-- ═══════════════════ HEADER ═══════════════════ -->
+    <header
+        class="fixed top-0 left-0 right-0 z-50 bg-[#F4F4F4]/80 backdrop-blur-md border-b border-border-gray px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-12">
+            <a href="index.html" class="flex items-center gap-3 interactive-element" aria-label="Home">
+                <span class="material-symbols-outlined text-primary text-2xl">coffee</span>
+                <span class="text-xl tracking-tight text-slate-900">ROAST AND DONUT</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+                <a class="text-sm link-grow interactive-element text-slate-900" href="feed.html">Feed</a>
+                <a class="text-sm link-grow interactive-element" href="dashboard.html" id="dashLink">Dashboard</a>
+                <a class="text-sm link-grow interactive-element" href="notifications.html">Notifications</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="relative">
+                <span
+                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-gray text-xl">search</span>
+                <input id="searchInput"
+                    class="bg-[#F5F5F5] border border-border-gray rounded-lg py-1.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 w-48"
+                    placeholder="Search roasts..." type="text" />
+            </div>
+            <a href="login.html" id="authLink" class="text-sm interactive-element link-grow">Log In</a>
+        </div>
+    </header>
+
+    <!-- ═══════════════════ MAIN ═══════════════════ -->
+    <main class="max-w-5xl mx-auto pt-28 pb-20 px-6">
+        <!-- Feed Tabs -->
+        <div class="flex items-center gap-6 mb-4 border-b border-border-gray pb-3 animate-entry">
+            <button class="text-sm interactive-element tab-active" data-tab="main" id="tabMain">Latest</button>
+            <button class="text-sm interactive-element" data-tab="trending" id="tabTrending">Trending</button>
+            <button class="text-sm interactive-element" data-tab="search" id="tabSearch" style="display: none;">Search
+                Results</button>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex items-center gap-2 mb-6 overflow-x-auto animate-entry" style="animation-delay: 0.05s;"
+            id="categoryBar">
+            <span class="category-pill active" data-cat="">All</span>
+            <!-- populated dynamically -->
+        </div>
+
+        <!-- Post Grid -->
+        <div id="postGrid" class="space-y-4">
+            <!-- Skeleton loading -->
+            <div class="skeleton" style="height: 120px; width: 100%;"></div>
+            <div class="skeleton" style="height: 120px; width: 100%;"></div>
+            <div class="skeleton" style="height: 120px; width: 100%;"></div>
+        </div>
+
+        <!-- Search User Results (hidden by default) -->
+        <div id="userResults" class="mb-6 hidden"></div>
+
+        <!-- Load More -->
+        <div class="text-center mt-8">
+            <button id="loadMoreBtn" class="text-sm interactive-element hidden">Load More</button>
+        </div>
+    </main>
+
+    <script>
+        const API = 'http://localhost:4000';
+        const token = localStorage.getItem('rd_token');
+        const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+
+        // Auth state
+        if (token) {
+            document.getElementById('authLink').textContent = 'Dashboard';
+            document.getElementById('authLink').href = 'dashboard.html';
+        }
+
+        let currentTab = new URLSearchParams(window.location.search).get('tab') || 'main';
+        let currentCategory = '';
+        let currentPage = 1;
+        let searchTimeout;
+
+        const progressBar = document.getElementById('progressBar');
+
+        function setProgress(pct) { progressBar.style.width = pct + '%'; }
+
+        // Status orb helper
+        function statusDot(last_seen_at, is_banned) {
+            if (is_banned) return '<span class="dot-banned" title="Suspended"></span>';
+            if (!last_seen_at) return '<span class="dot-offline" title="Offline"></span>';
+            const diff = (Date.now() - new Date(last_seen_at)) / 1000 / 60;
+            return diff <= 5 ? '<span class="dot-online" title="Online"></span>' : '<span class="dot-offline" title="Offline"></span>';
+        }
+
+        function relativeTime(dateStr) {
+            const secs = (Date.now() - new Date(dateStr)) / 1000;
+            if (secs < 60) return 'just now';
+            if (secs < 3600) return Math.floor(secs / 60) + 'm ago';
+            if (secs < 86400) return Math.floor(secs / 3600) + 'h ago';
+            return Math.floor(secs / 86400) + 'd ago';
+        }
+
+        // Render a single post card
+        function renderPost(p, index) {
+            return `
+            <article class="bento-card p-6 group animate-entry" style="animation-delay: ${index * 0.05}s;">
+                <div class="flex gap-6">
+                    ${p.cover_image_url ? `<div class="w-32 h-24 rounded-lg overflow-hidden flex-shrink-0"><div class="w-full h-full bg-cover bg-center img-hover" style="background-image: url('${p.cover_image_url}')"></div></div>` : ''}
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                            ${p.category ? `<span class="text-[10px] uppercase tracking-widest text-primary">${p.category}</span>` : ''}
+                        </div>
+                        <a href="post.html?id=${p.post_id}" class="text-lg text-slate-900 interactive-element block truncate">${p.title || 'Untitled'}</a>
+                        <p class="text-sm text-neutral-gray mt-1 line-clamp-2">${p.content ? p.content.substring(0, 120) + '...' : ''}</p>
+                        <div class="flex items-center gap-4 mt-3 text-xs text-neutral-gray">
+                            <span class="flex items-center gap-1.5">${statusDot(p.author_last_seen_at, p.author_is_banned)} ${p.author_name || 'Anonymous'}</span>
+                            <span>${p.time_display || relativeTime(p.created_at)}</span>
+                            ${p.avg_stars ? `<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">star</span>${parseFloat(p.avg_stars).toFixed(1)}</span>` : ''}
+                            ${p.comment_count ? `<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">chat_bubble</span>${p.comment_count}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            </article>`;
+        }
+
+        // Fetch feed
+        async function loadFeed(append = false) {
+            setProgress(20);
+            const grid = document.getElementById('postGrid');
+            if (!append) { grid.innerHTML = '<div class="skeleton" style="height: 120px;"></div><div class="skeleton" style="height: 120px;"></div><div class="skeleton" style="height: 120px;"></div>'; }
+
+            const params = new URLSearchParams({ page: currentPage, limit: 20 });
+            if (currentCategory) params.set('category', currentCategory);
+
+            const endpoint = currentTab === 'trending' ? 'trending' : 'main';
+            setProgress(50);
+
+            try {
+                const res = await fetch(`${API}/api/feed/${endpoint}?${params}`);
+                const data = await res.json();
+                setProgress(80);
+
+                const posts = data.posts || [];
+                const html = posts.map((p, i) => renderPost(p, i)).join('');
+
+                if (append) { grid.insertAdjacentHTML('beforeend', html); }
+                else { grid.innerHTML = html || '<div class="bento-card p-8 text-center"><p class="text-sm text-neutral-gray">No roasts found. The feed is empty.</p></div>'; }
+
+                // Load more button
+                const pagination = data.pagination;
+                document.getElementById('loadMoreBtn').classList.toggle('hidden', !pagination || currentPage >= pagination.totalPages);
+
+                setProgress(100);
+                setTimeout(() => setProgress(0), 500);
+            } catch (err) {
+                console.error('Feed error:', err);
+                grid.innerHTML = '<div class="bento-card p-8 text-center"><p class="text-sm text-neutral-gray">The feed engine failed to respond.</p></div>';
+                setProgress(0);
+            }
+        }
+
+        // Load categories
+        async function loadCategories() {
+            try {
+                const res = await fetch(`${API}/api/feed/categories`);
+                const data = await res.json();
+                const bar = document.getElementById('categoryBar');
+                (data.categories || []).forEach(cat => {
+                    bar.insertAdjacentHTML('beforeend', `<span class="category-pill" data-cat="${cat}">${cat}</span>`);
+                });
+            } catch (err) { console.error('Categories error:', err); }
+        }
+
+        // Category click
+        document.getElementById('categoryBar').addEventListener('click', (e) => {
+            if (e.target.classList.contains('category-pill')) {
+                document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.dataset.cat;
+                currentPage = 1;
+                loadFeed();
+            }
+        });
+
+        // Tab switching
+        function setTab(tab) {
+            currentTab = tab;
+            currentPage = 1;
+            document.querySelectorAll('[data-tab]').forEach(t => t.classList.remove('tab-active'));
+            document.querySelector(`[data-tab="${tab}"]`)?.classList.add('tab-active');
+            document.getElementById('userResults').classList.add('hidden');
+
+            if (tab !== 'search') loadFeed();
+        }
+
+        document.getElementById('tabMain').addEventListener('click', () => setTab('main'));
+        document.getElementById('tabTrending').addEventListener('click', () => setTab('trending'));
+
+        // Load more
+        document.getElementById('loadMoreBtn').addEventListener('click', () => { currentPage++; loadFeed(true); });
+
+        // Search
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const q = e.target.value.trim();
+            if (!q) { setTab('main'); document.getElementById('tabSearch').style.display = 'none'; return; }
+            searchTimeout = setTimeout(() => searchPosts(q), 300);
+        });
+
+        async function searchPosts(q) {
+            document.getElementById('tabSearch').style.display = 'inline';
+            setTab('search');
+            setProgress(30);
+
+            try {
+                const [postRes, userRes] = await Promise.all([
+                    fetch(`${API}/api/search/posts?q=${encodeURIComponent(q)}`),
+                    fetch(`${API}/api/search/users?q=${encodeURIComponent(q)}`)
+                ]);
+                const postData = await postRes.json();
+                const userData = await userRes.json();
+                setProgress(80);
+
+                // Users
+                const userContainer = document.getElementById('userResults');
+                if (userData.users && userData.users.length > 0) {
+                    userContainer.classList.remove('hidden');
+                    userContainer.innerHTML = `
+                        <h3 class="text-xs uppercase tracking-widest text-neutral-gray mb-3">Users</h3>
+                        <div class="flex flex-wrap gap-3">
+                            ${userData.users.map(u => `
+                                <div class="bento-card p-4 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-[#F5F5F5] flex items-center justify-center"><span class="material-symbols-outlined text-sm text-neutral-gray">person</span></div>
+                                    <div>
+                                        <span class="text-sm text-slate-900">${u.email}</span>
+                                        <span class="ml-1">${statusDot(u.last_seen_at, u.is_banned)}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>`;
+                } else { userContainer.classList.add('hidden'); }
+
+                // Posts
+                const grid = document.getElementById('postGrid');
+                const posts = postData.posts || [];
+                grid.innerHTML = posts.map((p, i) => renderPost(p, i)).join('') || '<div class="bento-card p-8 text-center"><p class="text-sm text-neutral-gray">No results found.</p></div>';
+                document.getElementById('loadMoreBtn').classList.add('hidden');
+
+                setProgress(100);
+                setTimeout(() => setProgress(0), 500);
+            } catch (err) {
+                console.error('Search error:', err);
+                setProgress(0);
+            }
+        }
+
+        // Init
+        if (currentTab === 'trending') setTab('trending');
+        else loadFeed();
+        loadCategories();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compose — ROAST AND DONUT</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = { theme: { extend: { colors: { "primary": "#e62a19", "border-gray": "#E5E5E5", "neutral-gray": "#737373" } } } }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 400 !important;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, "SF Pro Rounded", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .interactive-element {
+            color: #737373;
+            transition: color 0.2s linear;
+            cursor: pointer;
+        }
+
+        .interactive-element:hover {
+            color: #000;
+        }
+
+        .bento-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 16px;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-entry {
+            animation: fadeSlideUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .error-tooltip {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(25px);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: #E5E5E5;
+            font-size: 14px;
+            text-align: center;
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 9999;
+            pointer-events: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .error-tooltip.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <!-- Header -->
+    <header
+        class="fixed top-0 left-0 right-0 z-50 bg-[#F4F4F4]/80 backdrop-blur-md border-b border-border-gray px-6 py-4 flex items-center justify-between">
+        <a href="dashboard.html" class="flex items-center gap-3 interactive-element">
+            <span class="material-symbols-outlined text-primary text-2xl">coffee</span>
+            <span class="text-xl tracking-tight text-slate-900">ROAST AND DONUT</span>
+        </a>
+        <a href="dashboard.html" class="text-sm interactive-element">← Back to Dashboard</a>
+    </header>
+
+    <main class="max-w-2xl mx-auto pt-28 pb-20 px-6">
+        <div class="bento-card p-8 animate-entry">
+            <h1 class="text-xl text-slate-900 mb-6">New Roast</h1>
+            <form id="createForm" class="space-y-5" novalidate>
+                <div>
+                    <label for="title"
+                        class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Title</label>
+                    <input id="title" name="title" type="text" required
+                        class="w-full border border-border-gray rounded-lg px-4 py-2.5 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder:text-neutral-gray/50"
+                        placeholder="Give your roast a name" />
+                </div>
+                <div>
+                    <label for="content"
+                        class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Content</label>
+                    <textarea id="content" name="content" rows="8" required
+                        class="w-full border border-border-gray rounded-lg px-4 py-3 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 resize-none placeholder:text-neutral-gray/50"
+                        placeholder="Write your thoughts..."></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="category"
+                            class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Category</label>
+                        <input id="category" name="category" type="text"
+                            class="w-full border border-border-gray rounded-lg px-4 py-2.5 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder:text-neutral-gray/50"
+                            placeholder="e.g. roast, donut" />
+                    </div>
+                    <div>
+                        <label for="coverUrl"
+                            class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Cover Image
+                            URL</label>
+                        <input id="coverUrl" name="coverUrl" type="url"
+                            class="w-full border border-border-gray rounded-lg px-4 py-2.5 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder:text-neutral-gray/50"
+                            placeholder="https://..." />
+                    </div>
+                </div>
+                <!-- Sovereignty options -->
+                <div class="border-t border-border-gray pt-5 mt-5">
+                    <p class="text-xs uppercase tracking-widest text-neutral-gray mb-3">Sovereignty Options</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="burnAt" class="text-xs text-neutral-gray mb-1 block">Self-Destruct
+                                (burn_at)</label>
+                            <input id="burnAt" type="datetime-local"
+                                class="w-full border border-border-gray rounded-lg px-3 py-2 text-xs text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30" />
+                        </div>
+                        <div>
+                            <label for="scheduledFor" class="text-xs text-neutral-gray mb-1 block">Schedule
+                                Publication</label>
+                            <input id="scheduledFor" type="datetime-local"
+                                class="w-full border border-border-gray rounded-lg px-3 py-2 text-xs text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30" />
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 mt-3 text-xs text-neutral-gray cursor-pointer">
+                        <input type="checkbox" id="isDraft"
+                            class="rounded border-border-gray text-primary focus:ring-primary/30" />
+                        Save as draft
+                    </label>
+                </div>
+                <button type="submit" id="publishBtn"
+                    class="w-full bg-primary text-white py-2.5 rounded-lg text-sm hover:bg-primary/90 transition-colors">
+                    Publish Roast
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <div id="errorTooltip" class="error-tooltip" role="alert"></div>
+
+    <script>
+        const API = 'http://localhost:4000';
+        const token = localStorage.getItem('rd_token');
+        if (!token) window.location.href = 'login.html';
+        const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+        const tooltip = document.getElementById('errorTooltip');
+
+        function showError(msg) { tooltip.textContent = msg; tooltip.classList.add('visible'); setTimeout(() => tooltip.classList.remove('visible'), 4000); }
+
+        document.getElementById('createForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('publishBtn');
+            btn.textContent = 'Publishing...'; btn.disabled = true;
+
+            const body = {
+                title: document.getElementById('title').value.trim(),
+                content: document.getElementById('content').value.trim(),
+                category: document.getElementById('category').value.trim() || null,
+                cover_image_url: document.getElementById('coverUrl').value.trim() || null,
+                burn_at: document.getElementById('burnAt').value ? new Date(document.getElementById('burnAt').value).toISOString() : null,
+                scheduled_for: document.getElementById('scheduledFor').value ? new Date(document.getElementById('scheduledFor').value).toISOString() : null,
+                is_draft: document.getElementById('isDraft').checked,
+            };
+
+            if (!body.title || !body.content) { showError('Title and content are required.'); btn.textContent = 'Publish Roast'; btn.disabled = false; return; }
+
+            try {
+                const res = await fetch(`${API}/api/posts`, { method: 'POST', headers, body: JSON.stringify(body) });
+                const data = await res.json();
+                if (!res.ok) { showError(data.error || 'Failed to publish.'); btn.textContent = 'Publish Roast'; btn.disabled = false; return; }
+                window.location.href = 'dashboard.html';
+            } catch (err) { showError('The engine failed. Try again.'); btn.textContent = 'Publish Roast'; btn.disabled = false; }
+        });
+    </script>
+</body>
+
+</html>

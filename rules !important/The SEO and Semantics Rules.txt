@@ -1,0 +1,29 @@
+{
+  "project_scope": "Full Website Optimization (Frontend & Backend Sync)",
+  "global_standard": "Apple-Minimalist (SF Pro Rounded), High-Performance, SEO-Centric",
+  "semantic_architecture": {
+    "html_spec": "Use strict HTML5 semantics: <header> for nav, <main> for primary content, <article> for Roasts/Posts, <section> for bento-grid modules, and <footer>.",
+    "accessibility": "Every interactive element must have an aria-label. All status orbs must include screen-reader text indicating user status.",
+    "seo_strategy": "Implement a 'Head' manager for dynamic Metadata. Each Roast must have a unique Title, Description, and OpenGraph image tag for social sharing."
+  },
+  "database_integration": {
+    "primary_view": "v_admin_user_control_center",
+    "sync_logic": "Map the 'status_label' and 'report_count' from the SQL view directly to the User UI components globally.",
+    "realtime_updates": "When a user is 'Banned' or 'Shadow Banned' in the DB, the frontend must reflect this status immediately via the 'status_label' logic."
+  },
+  "responsive_design_system": {
+    "breakpoint_md": "768px",
+    "scaling_protocol": {
+      "typography": "Apply a fluid type scale. At <768px, reduce all font sizes by 12-15% and switch to tighter letter-spacing for SF Pro Rounded.",
+      "layout": "Transition Bento Grids from multi-column desktop layouts to a single-column 'Stack' on mobile. Maximum horizontal padding: 16px.",
+      "components": "Downsize Status Orbs and profile avatars by 20% on mobile to preserve vertical screen real-estate."
+    }
+  },
+  "performance_metrics": {
+    "image_optimization": "Use Next.js Image component (or equivalent) for all 'cover_image_url' and 'pfp_url' assets to ensure WebP delivery.",
+    "loading_states": "Implement skeleton loaders that match the Bento Grid shape to prevent Layout Shift (CLS)."
+  },
+  "seo_rich_results": {
+    "structured_data": "Inject JSON-LD Schema.org 'Article' for Roasts and 'CollectionPage' for the Trending Feed to trigger Google Rich Snippets."
+  }
+}

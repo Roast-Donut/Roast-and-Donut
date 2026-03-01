@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings — ROAST AND DONUT</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = { theme: { extend: { colors: { "primary": "#e62a19", "border-gray": "#E5E5E5", "neutral-gray": "#737373" } } } }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 400 !important;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .interactive-element {
+            color: #737373;
+            transition: color 0.2s linear;
+            cursor: pointer;
+        }
+
+        .interactive-element:hover {
+            color: #000;
+        }
+
+        .bento-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 16px;
+        }
+
+        .link-grow {
+            position: relative;
+        }
+
+        .link-grow::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: #000;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .link-grow:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-entry {
+            animation: fadeSlideUp 0.5s ease forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <header
+        class="fixed top-0 left-0 right-0 z-50 bg-[#F4F4F4]/80 backdrop-blur-md border-b border-border-gray px-6 py-4 flex items-center justify-between">
+        <a href="dashboard.html" class="flex items-center gap-3 interactive-element"><span
+                class="material-symbols-outlined text-primary text-2xl">coffee</span><span
+                class="text-xl tracking-tight text-slate-900">ROAST AND DONUT</span></a>
+        <a href="dashboard.html" class="text-sm interactive-element link-grow">← Dashboard</a>
+    </header>
+
+    <main class="max-w-2xl mx-auto pt-28 pb-20 px-6">
+        <!-- Settings Nav -->
+        <div class="flex gap-4 mb-6 animate-entry">
+            <a href="settings.html" class="text-sm text-slate-900 link-grow">Account</a>
+            <a href="settings-privacy.html" class="text-sm interactive-element link-grow">Privacy & Blocks</a>
+        </div>
+
+        <!-- Account Settings -->
+        <section class="bento-card p-8 animate-entry" style="animation-delay: 0.05s;">
+            <h1 class="text-xl text-slate-900 mb-6">Account Settings</h1>
+            <div class="space-y-4" id="settingsContent">
+                <div>
+                    <label class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Email</label>
+                    <p class="text-sm text-slate-900" id="userEmail">Loading...</p>
+                </div>
+                <div>
+                    <label class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Session ID</label>
+                    <p class="text-xs text-neutral-gray font-mono" id="sessionId">—</p>
+                </div>
+                <div>
+                    <label class="text-xs uppercase tracking-widest text-neutral-gray mb-1.5 block">Browser
+                        Fingerprint</label>
+                    <p class="text-xs text-neutral-gray font-mono" id="fingerprint">—</p>
+                </div>
+                <div class="border-t border-border-gray pt-5 mt-5">
+                    <button id="logoutBtn" class="text-sm text-[#e62a19] interactive-element">Log out of all
+                        devices</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const API = 'http://localhost:4000';
+        const token = localStorage.getItem('rd_token');
+        if (!token) window.location.href = 'login.html';
+        const headers = { 'Authorization': `Bearer ${token}` };
+
+        async function loadSettings() {
+            try {
+                const res = await fetch(`${API}/api/user/dashboard`, { headers });
+                if (res.status === 401) { window.location.href = 'login.html'; return; }
+                const data = await res.json();
+                const d = data.dashboard;
+                if (d) {
+                    document.getElementById('userEmail').textContent = d.email || '—';
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('rd_token');
+            localStorage.removeItem('rd_user');
+            window.location.href = 'login.html';
+        });
+
+        loadSettings();
+    </script>
+</body>
+
+</html>

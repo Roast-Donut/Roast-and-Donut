@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications — ROAST AND DONUT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = { theme: { extend: { colors: { "primary": "#e62a19", "border-gray": "#E5E5E5", "neutral-gray": "#737373" } } } }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 400 !important;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .interactive-element {
+            color: #737373;
+            transition: color 0.2s linear;
+            cursor: pointer;
+        }
+
+        .interactive-element:hover {
+            color: #000;
+        }
+
+        .bento-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 16px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            border-color: #737373;
+        }
+
+        .link-grow {
+            position: relative;
+        }
+
+        .link-grow::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: #000;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .link-grow:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .skeleton {
+            background: #F5F5F5;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0));
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-entry {
+            animation: fadeSlideUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .unread {
+            border-left: 3px solid #e62a19;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <header
+        class="fixed top-0 left-0 right-0 z-50 bg-[#F4F4F4]/80 backdrop-blur-md border-b border-border-gray px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-12">
+            <a href="index.html" class="flex items-center gap-3 interactive-element"><span
+                    class="material-symbols-outlined text-primary text-2xl">coffee</span><span
+                    class="text-xl tracking-tight text-slate-900">ROAST AND DONUT</span></a>
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="text-sm link-grow interactive-element" href="feed.html">Feed</a>
+                <a class="text-sm link-grow interactive-element" href="dashboard.html">Dashboard</a>
+                <a class="text-sm link-grow interactive-element text-slate-900"
+                    href="notifications.html">Notifications</a>
+            </nav>
+        </div>
+        <a href="dashboard.html" class="text-sm interactive-element link-grow">Dashboard</a>
+    </header>
+
+    <main class="max-w-2xl mx-auto pt-28 pb-20 px-6">
+        <h1 class="text-xl text-slate-900 mb-6 animate-entry">Notifications</h1>
+        <div id="notifList" class="space-y-3">
+            <div class="skeleton" style="height: 60px;"></div>
+            <div class="skeleton" style="height: 60px;"></div>
+            <div class="skeleton" style="height: 60px;"></div>
+        </div>
+    </main>
+
+    <script>
+        const API = 'http://localhost:4000';
+        const token = localStorage.getItem('rd_token');
+        if (!token) window.location.href = 'login.html';
+        const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+
+        async function loadNotifications() {
+            try {
+                const res = await fetch(`${API}/api/user/notifications`, { headers });
+                if (res.status === 401) { window.location.href = 'login.html'; return; }
+                const data = await res.json();
+                const list = document.getElementById('notifList');
+                const notifs = data.notifications || [];
+                if (notifs.length === 0) {
+                    list.innerHTML = '<div class="bento-card p-8 text-center"><p class="text-sm text-neutral-gray">No notifications yet.</p></div>';
+                    return;
+                }
+                list.innerHTML = notifs.map((n, i) => `
+                    <div class="bento-card p-4 ${n.is_read ? '' : 'unread'} animate-entry cursor-pointer" style="animation-delay: ${i * 0.05}s;" onclick="markRead('${n.id}', this)">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-gray">${n.notification_type || 'System'}</span>
+                                <p class="text-sm text-slate-900 mt-1">${n.metadata?.message || 'You have a notification.'}</p>
+                            </div>
+                            <span class="text-[10px] text-neutral-gray flex-shrink-0">${new Date(n.created_at).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) { console.error('Notifications error:', err); }
+        }
+
+        async function markRead(id, el) {
+            try {
+                await fetch(`${API}/api/user/notifications/${id}/read`, { method: 'PATCH', headers });
+                el.classList.remove('unread');
+            } catch (err) { console.error('Mark read error:', err); }
+        }
+
+        loadNotifications();
+    </script>
+</body>
+
+</html>

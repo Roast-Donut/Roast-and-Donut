@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post — ROAST AND DONUT</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = { theme: { extend: { colors: { "primary": "#e62a19", "border-gray": "#E5E5E5", "neutral-gray": "#737373" } } } }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 400 !important;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, "SF Pro Rounded", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .interactive-element {
+            color: #737373;
+            transition: color 0.2s linear;
+            cursor: pointer;
+        }
+
+        .interactive-element:hover {
+            color: #000;
+        }
+
+        .bento-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 16px;
+        }
+
+        .link-grow {
+            position: relative;
+        }
+
+        .link-grow::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: #000;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .link-grow:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .skeleton {
+            background: #F5F5F5;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0));
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-entry {
+            animation: fadeSlideUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .prose-custom {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #737373;
+        }
+
+        .dot-online {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #28CD41;
+            box-shadow: 0 0 8px rgba(40, 205, 65, 0.4);
+            display: inline-block;
+        }
+
+        .dot-offline {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #737373;
+            display: inline-block;
+        }
+
+        /* Star pop */
+        @keyframes starPop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.4);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .star-pop {
+            animation: starPop 0.15s ease;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <!-- Header -->
+    <header
+        class="fixed top-0 left-0 right-0 z-50 bg-[#F4F4F4]/80 backdrop-blur-md border-b border-border-gray px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-12">
+            <a href="index.html" class="flex items-center gap-3 interactive-element" aria-label="Home">
+                <span class="material-symbols-outlined text-primary text-2xl">coffee</span>
+                <span class="text-xl tracking-tight text-slate-900">ROAST AND DONUT</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="text-sm link-grow interactive-element" href="feed.html">Feed</a>
+                <a class="text-sm link-grow interactive-element" href="dashboard.html">Dashboard</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="login.html" id="authLink" class="text-sm interactive-element link-grow">Log In</a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto pt-28 pb-20 px-6">
+        <!-- Article -->
+        <article class="bento-card p-8 md:p-12 animate-entry" id="postContainer">
+            <nav class="flex items-center gap-2 mb-8 text-xs uppercase tracking-widest text-neutral-gray">
+                <a href="feed.html" class="interactive-element">Feed</a>
+                <span class="material-symbols-outlined text-xs">chevron_right</span>
+                <span id="breadcrumbCategory">Post</span>
+            </nav>
+            <header class="mb-10">
+                <h1 class="text-[32px] text-slate-900 leading-tight mb-4" id="postTitle"><span class="skeleton"
+                        style="width: 80%; height: 36px; display: inline-block;"></span></h1>
+                <div class="flex items-center gap-3 text-neutral-gray text-sm" id="postMeta">
+                    <span class="skeleton" style="width: 200px; height: 16px; display: inline-block;"></span>
+                </div>
+            </header>
+            <div id="postImage" class="mb-10 rounded-lg overflow-hidden border border-border-gray hidden">
+                <img class="w-full aspect-video object-cover" id="postCoverImage" src="" alt="" />
+            </div>
+            <div class="prose-custom space-y-6" id="postContent">
+                <div class="skeleton" style="height: 16px; width: 100%;"></div>
+                <div class="skeleton" style="height: 16px; width: 90%;"></div>
+                <div class="skeleton" style="height: 16px; width: 95%;"></div>
+            </div>
+            <!-- Interactions -->
+            <footer class="mt-16 pt-8 border-t border-border-gray flex items-center justify-between" id="postFooter"
+                style="display: none;">
+                <div class="flex items-center gap-6">
+                    <button class="flex items-center gap-2 interactive-element group" id="starBtn"
+                        aria-label="Star this post">
+                        <span class="material-symbols-outlined" id="starIcon">star</span>
+                        <span class="text-xs" id="starCount">0</span>
+                    </button>
+                    <button class="flex items-center gap-2 interactive-element" id="shareBtn" aria-label="Share">
+                        <span class="material-symbols-outlined">share</span>
+                        <span class="text-xs">Share</span>
+                    </button>
+                </div>
+                <button class="flex items-center gap-2 interactive-element" id="reportBtn" aria-label="Report post">
+                    <span class="material-symbols-outlined">flag</span>
+                    <span class="text-xs">Report</span>
+                </button>
+            </footer>
+        </article>
+
+        <!-- Comments -->
+        <section class="mt-6 animate-entry" style="animation-delay: 0.1s;" id="commentsSection">
+            <h2 class="text-sm text-slate-900 mb-4">Comments</h2>
+            <div id="commentsList" class="space-y-3">
+                <div class="skeleton" style="height: 60px;"></div>
+            </div>
+            <!-- Comment Form -->
+            <form id="commentForm" class="mt-4 hidden">
+                <textarea id="commentInput" rows="3" placeholder="Write a comment..."
+                    class="w-full border border-border-gray rounded-lg px-4 py-3 text-sm text-slate-900 bg-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-primary/30 resize-none placeholder:text-neutral-gray/50"></textarea>
+                <button type="submit"
+                    class="mt-2 bg-primary text-white px-6 py-2 rounded-lg text-sm hover:bg-primary/90 transition-colors">Post
+                    Comment</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const API = 'http://localhost:4000';
+        const token = localStorage.getItem('rd_token');
+        const headers = token ? { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } : {};
+        const postId = new URLSearchParams(window.location.search).get('id');
+
+        if (token) {
+            document.getElementById('authLink').textContent = 'Dashboard';
+            document.getElementById('authLink').href = 'dashboard.html';
+            document.getElementById('commentForm').classList.remove('hidden');
+        }
+
+        function statusDot(last_seen_at, is_banned) {
+            if (is_banned) return '<span class="dot-banned" title="Suspended"></span>';
+            if (!last_seen_at) return '<span class="dot-offline"></span>';
+            return (Date.now() - new Date(last_seen_at)) / 60000 <= 5 ? '<span class="dot-online"></span>' : '<span class="dot-offline"></span>';
+        }
+
+        async function loadPost() {
+            if (!postId) { document.getElementById('postTitle').textContent = 'Post not found.'; return; }
+
+            try {
+                const res = await fetch(`${API}/api/feed/main?limit=50`);
+                const data = await res.json();
+                const post = (data.posts || []).find(p => p.post_id === postId);
+
+                if (!post) { document.getElementById('postTitle').textContent = 'Post not found.'; return; }
+
+                // Update title tag
+                document.title = `${post.title} — ROAST AND DONUT`;
+
+                document.getElementById('postTitle').textContent = post.title || 'Untitled';
+                document.getElementById('breadcrumbCategory').textContent = post.category || 'Post';
+                document.getElementById('postMeta').innerHTML = `
+                    <span>${statusDot(post.author_last_seen_at, post.author_is_banned)}</span>
+                    <span>${post.author_name || 'Anonymous'}</span>
+                    <span class="text-border-gray">·</span>
+                    <span>${post.time_display || new Date(post.created_at).toLocaleDateString()}</span>
+                `;
+
+                if (post.cover_image_url) {
+                    document.getElementById('postImage').classList.remove('hidden');
+                    document.getElementById('postCoverImage').src = post.cover_image_url;
+                    document.getElementById('postCoverImage').alt = post.title;
+                }
+
+                document.getElementById('postContent').innerHTML = `<p>${(post.content || '').replace(/\n/g, '</p><p>')}</p>`;
+                document.getElementById('postFooter').style.display = 'flex';
+                document.getElementById('starCount').textContent = post.avg_stars ? parseFloat(post.avg_stars).toFixed(1) : '0';
+
+                // Load comments
+                loadComments();
+            } catch (err) { console.error('Post load error:', err); }
+        }
+
+        async function loadComments() {
+            try {
+                const res = await fetch(`${API}/api/posts/${postId}/comments`);
+                const data = await res.json();
+                const list = document.getElementById('commentsList');
+                const comments = data.comments || [];
+                if (comments.length === 0) {
+                    list.innerHTML = '<p class="text-sm text-neutral-gray">No comments yet.</p>';
+                    return;
+                }
+                list.innerHTML = comments.map(c => `
+                    <div class="bento-card p-4">
+                        <div class="flex items-center gap-2 mb-2 text-xs text-neutral-gray">
+                            <span class="text-slate-900">${c.author_email || 'Anonymous'}</span>
+                            <span>·</span>
+                            <span>${new Date(c.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <p class="text-sm text-neutral-gray">${c.content}</p>
+                    </div>
+                `).join('');
+            } catch (err) { console.error('Comments error:', err); }
+        }
+
+        // Comment submit
+        document.getElementById('commentForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const content = document.getElementById('commentInput').value.trim();
+            if (!content) return;
+            try {
+                await fetch(`${API}/api/posts/${postId}/comments`, {
+                    method: 'POST', headers, body: JSON.stringify({ content })
+                });
+                document.getElementById('commentInput').value = '';
+                loadComments();
+            } catch (err) { console.error('Comment error:', err); }
+        });
+
+        // Report
+        document.getElementById('reportBtn')?.addEventListener('click', async () => {
+            if (!token) { window.location.href = 'login.html'; return; }
+            const reason = prompt('Reason for reporting this post:');
+            if (!reason) return;
+            try {
+                await fetch(`${API}/api/reports`, {
+                    method: 'POST', headers, body: JSON.stringify({ post_id: postId, reason })
+                });
+                alert('Report submitted.');
+            } catch (err) { console.error('Report error:', err); }
+        });
+
+        loadPost();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — ROAST AND DONUT</title>
+    <meta name="description" content="Your personal Roast and Donut command center." />
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = { theme: { extend: { colors: { "primary": "#e62a19", "border-gray": "#E5E5E5", "neutral-gray": "#737373" } } } }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 400 !important;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, "SF Pro Rounded", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .interactive-element {
+            color: #737373;
+            transition: color 0.2s linear, transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .interactive-element:hover {
+            color: #000;
+            transform: scale(1.02);
+        }
+
+        .bento-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            border-color: #737373;
+        }
+
+        .link-grow {
+            position: relative;
+        }
+
+        .link-grow::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: #000;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .link-grow:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* Skeleton shimmer */
+        .skeleton {
+            background: #F5F5F5;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0));
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-entry {
+            animation: fadeSlideUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        /* Status dots */
+        .dot-online {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #28CD41;
+            box-shadow: 0 0 8px rgba(40, 205, 65, 0.4);
+            display: inline-block;
+        }
+
+        /* Burn progress bar */
+        .burn-bar {
+            height: 2px;
+            background: #E5E5E5;
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .burn-bar-fill {
+            height: 100%;
+            background: #e62a19;
+            transition: width 1s linear;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+
+    <!-- ═══════════════════ HEADER ═══════════════════ -->
+    <header
+        class="fixed top-0 left-0 right-0 z-50 bg-[#F4F4F4]/80 backdrop-blur-md border-b border-border-gray px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-12">
+            <a href="index.html" class="flex items-center gap-3 interactive-element" aria-label="Home">
+                <span class="material-symbols-outlined text-primary text-2xl">coffee</span>
+                <span class="text-xl tracking-tight text-slate-900">ROAST AND DONUT</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+                <a class="text-sm link-grow interactive-element" href="feed.html">Feed</a>
+                <a class="text-sm link-grow interactive-element text-slate-900" href="dashboard.html">Dashboard</a>
+                <a class="text-sm link-grow interactive-element" href="notifications.html">Notifications</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <button id="logoutBtn" class="text-sm interactive-element link-grow" aria-label="Log out">Log Out</button>
+        </div>
+    </header>
+
+    <!-- ═══════════════════ MAIN ═══════════════════ -->
+    <main class="max-w-7xl mx-auto pt-28 pb-20 px-6">
+
+        <!-- Dashboard Header -->
+        <section class="mb-8 animate-entry">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-full bg-[#F5F5F5] border border-[#E5E5E5] overflow-hidden flex items-center justify-center"
+                    id="avatarContainer">
+                    <span class="material-symbols-outlined text-3xl text-neutral-gray">person</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl text-slate-900 flex items-center gap-2" id="userGreeting">
+                        <span class="skeleton" style="width: 180px; height: 28px; display: inline-block;"></span>
+                    </h1>
+                    <p class="text-sm text-neutral-gray flex items-center gap-2 mt-1">
+                        <span class="dot-online"></span>
+                        <span id="memberSince">Loading...</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Bento Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8" aria-label="User stats">
+            <div class="bento-card animate-entry" style="animation-delay: 0.05s;">
+                <span class="text-xs uppercase tracking-widest text-neutral-gray block mb-3">Total Roasts</span>
+                <p class="text-3xl text-slate-900" id="totalStories">—</p>
+            </div>
+            <div class="bento-card animate-entry" style="animation-delay: 0.1s;">
+                <span class="text-xs uppercase tracking-widest text-neutral-gray block mb-3">Notifications</span>
+                <p class="text-3xl text-slate-900" id="unreadCount">—</p>
+            </div>
+            <div class="bento-card animate-entry" style="animation-delay: 0.15s;">
+                <span class="text-xs uppercase tracking-widest text-neutral-gray block mb-3">Badges</span>
+                <p class="text-3xl text-slate-900" id="badgeCount">—</p>
+            </div>
+            <div class="bento-card animate-entry" style="animation-delay: 0.2s;">
+                <span class="text-xs uppercase tracking-widest text-neutral-gray block mb-3">Country</span>
+                <p class="text-3xl text-slate-900" id="userCountry">—</p>
+            </div>
+        </section>
+
+        <!-- User Posts (Sovereignty Controls) -->
+        <section class="animate-entry" style="animation-delay: 0.25s;">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg text-slate-900">Your Posts</h2>
+                <a href="create.html" class="text-sm interactive-element flex items-center gap-1">
+                    <span class="material-symbols-outlined text-lg">add</span> New Roast
+                </a>
+            </div>
+            <div id="userPostsList" class="space-y-3">
+                <!-- Skeleton placeholders -->
+                <div class="skeleton" style="height: 80px; width: 100%;"></div>
+                <div class="skeleton" style="height: 80px; width: 100%;"></div>
+                <div class="skeleton" style="height: 80px; width: 100%;"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const API = 'http://localhost:4000';
+        const token = localStorage.getItem('rd_token');
+
+        if (!token) { window.location.href = 'login.html'; }
+
+        const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('rd_token');
+            localStorage.removeItem('rd_user');
+            window.location.href = 'login.html';
+        });
+
+        // Fetch dashboard data
+        async function loadDashboard() {
+            try {
+                const [dashRes, postRes, notifRes, badgeRes] = await Promise.all([
+                    fetch(`${API}/api/user/dashboard`, { headers }),
+                    fetch(`${API}/api/user/posts`, { headers }),
+                    fetch(`${API}/api/user/notifications`, { headers }),
+                    fetch(`${API}/api/user/badges`, { headers }),
+                ]);
+
+                // Handle banned/expired sessions
+                if (dashRes.status === 403) { window.location.href = 'locked.html'; return; }
+                if (dashRes.status === 401) { window.location.href = 'login.html'; return; }
+
+                const dash = await dashRes.json();
+                const posts = await postRes.json();
+                const notif = await notifRes.json();
+                const badges = await badgeRes.json();
+
+                // Dashboard header
+                const d = dash.dashboard;
+                if (d) {
+                    document.getElementById('userGreeting').textContent = d.email || 'User';
+                    document.getElementById('memberSince').textContent = `Member since ${new Date(d.member_since).toLocaleDateString()}`;
+                    document.getElementById('totalStories').textContent = d.total_stories || '0';
+                    document.getElementById('userCountry').textContent = d.country || '—';
+                    if (d.display_avatar) {
+                        document.getElementById('avatarContainer').innerHTML = `<img src="${d.display_avatar}" class="w-full h-full object-cover" alt="Avatar"/>`;
+                    }
+                }
+
+                // Notifications count
+                document.getElementById('unreadCount').textContent = notif.unread_total || '0';
+
+                // Badges count
+                document.getElementById('badgeCount').textContent = (badges.badges || []).length;
+
+                // User posts with sovereignty controls
+                const postList = document.getElementById('userPostsList');
+                const userPosts = posts.posts || [];
+
+                if (userPosts.length === 0) {
+                    postList.innerHTML = `<div class="bento-card text-center py-8"><p class="text-sm text-neutral-gray">No roasts yet. Start your first one.</p></div>`;
+                    return;
+                }
+
+                postList.innerHTML = userPosts.map(post => {
+                    const burnActive = post.burn_at && new Date(post.burn_at) > new Date();
+                    const scheduled = post.scheduled_for && new Date(post.scheduled_for) > new Date();
+                    return `
+                    <article class="bento-card flex items-center justify-between gap-4">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-sm text-slate-900 truncate interactive-element">${post.title || 'Untitled'}</h3>
+                            <div class="flex items-center gap-3 mt-1 text-xs text-neutral-gray">
+                                <span>${new Date(post.created_at).toLocaleDateString()}</span>
+                                ${burnActive ? `<span class="text-[#e62a19]">🔥 Burns ${new Date(post.burn_at).toLocaleString()}</span>` : ''}
+                                ${scheduled ? `<span class="text-[#737373]">⏰ Scheduled ${new Date(post.scheduled_for).toLocaleString()}</span>` : ''}
+                                ${post.is_draft ? '<span class="text-[#FFCC00]">Draft</span>' : ''}
+                            </div>
+                            ${burnActive ? `<div class="burn-bar mt-2"><div class="burn-bar-fill" style="width: ${Math.max(0, 100 - ((new Date(post.burn_at) - new Date()) / (1000 * 60 * 60 * 24) * 100))}%"></div></div>` : ''}
+                        </div>
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                            <button class="interactive-element text-sm" onclick="setBurn('${post.id}')" title="Set self-destruct timer">
+                                <span class="material-symbols-outlined text-lg">local_fire_department</span>
+                            </button>
+                            <button class="interactive-element text-sm" onclick="setSchedule('${post.id}')" title="Schedule publication">
+                                <span class="material-symbols-outlined text-lg">schedule</span>
+                            </button>
+                        </div>
+                    </article>`;
+                }).join('');
+
+            } catch (err) {
+                console.error('Dashboard load error:', err);
+            }
+        }
+
+        // Sovereignty: Set Burn Timer
+        async function setBurn(postId) {
+            const hours = prompt('Self-destruct in how many hours? (Enter 0 to clear)');
+            if (hours === null) return;
+            const burn_at = parseInt(hours) > 0 ? new Date(Date.now() + parseInt(hours) * 60 * 60 * 1000).toISOString() : null;
+            await fetch(`${API}/api/user/posts/${postId}/burn`, { method: 'PATCH', headers, body: JSON.stringify({ burn_at }) });
+            loadDashboard();
+        }
+
+        // Sovereignty: Set Schedule
+        async function setSchedule(postId) {
+            const hours = prompt('Publish in how many hours? (Enter 0 to clear)');
+            if (hours === null) return;
+            const scheduled_for = parseInt(hours) > 0 ? new Date(Date.now() + parseInt(hours) * 60 * 60 * 1000).toISOString() : null;
+            await fetch(`${API}/api/user/posts/${postId}/schedule`, { method: 'PATCH', headers, body: JSON.stringify({ scheduled_for }) });
+            loadDashboard();
+        }
+
+        loadDashboard();
+    </script>
+</body>
+
+</html>

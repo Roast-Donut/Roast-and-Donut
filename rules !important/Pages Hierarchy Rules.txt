@@ -1,0 +1,71 @@
+To build **Roast and Donut** as a complete, production-ready platform, your frontend needs a specific map of every single page and state.
+
+Since we are using the "Apple SF Pro Rounded, zero bold, `#F4F4F4` background" design system, even the "boring" pages will look like high-end iOS system menus.
+
+Here is the exhaustive, comprehensive page list mapped directly to your database schema. You can feed this entire list to Antigravity so it builds your `App.jsx` router perfectly.
+
+---
+
+### 🚪 1. The Entrance (Authentication & Onboarding)
+
+These pages use your `users` and `auth_tokens` tables. They should be hyper-minimalist, just floating white bento boxes in the center of the screen.
+
+* **`/` (Splash / Landing Page):** The main pitch. Clean, infographic style.
+* **`/age-gate`:** The strict 21+ entry warning.
+* **`/login`:** Single input for email/password.
+* **`/register`:** The account creation flow.
+* **`/verify-magic-link`:** The screen users see when clicking an email link (`auth_tokens` logic).
+* **`/forgot-password` & `/reset-password`:** Simple recovery flow.
+* **`/locked`:** The "You are banned" or "Too many failed attempts" screen (`user_restrictions` logic).
+
+### 📱 2. The Core Engine (Feeds & Content)
+
+This is where the `#737373` text and hover interactions shine.
+
+* **`/feed/new` (Main Feed):** Chronological posts pulling from `v_main_feed`.
+* **`/feed/trending`:** The heat-mapped feed pulling from `v_trending_feed`.
+* **`/feed/filtered`:** A dynamic page that changes based on the selected tag, pulling from `v_filtered_feed`.
+* **`/post/:id` (Single Post View):** Focuses entirely on one roast, loading the `comments` and full interactions underneath.
+* **`/create` (The Composer):** The minimalist text box where users create posts, attach images (`user_assets`), set `burn_at` timers, and schedule content (`scheduled_for`).
+* **`/edit/:id`:** The page for modifying an existing post (`post_versions` logic).
+
+### 👑 3. User Sovereignty (Dashboard & Profile)
+
+* **`/user/:id` (Public Profile):** What others see. Shows basic stats, custom avatars (`has_custom_pfp`), and achieved `badges`.
+* **`/dashboard` (Private Hub):** The user's personal command center (`v_user_dashboard`).
+* **`/settings/account`:** Change email, handle the single-session logic (`current_session_id`), and manage browser fingerprints.
+* **`/settings/privacy`:** Block list management (`user_blocks`) and visibility toggles.
+* **`/notifications`:** The minimalist list of alerts, pulling from `notifications`.
+
+### 👁️ 4. God Mode (The Admin Interface)
+
+Hidden from regular users. This uses the strict infographic aesthetic to display raw data and control tools.
+
+* **`/admin/overview`:** Big data blocks showing total users, daily roasts, and NSFW content tracking (`v_admin_master_stats`).
+* **`/admin/reports`:** The moderation queue pulling from `v_admin_report_center` and `reports`.
+* **`/admin/users`:** The table to search users, issue shadow bans (`is_shadow_banned`), or Nuke accounts.
+* **`/admin/audit-logs`:** The raw security feed showing IP addresses and system events (`security_audit`).
+
+### ⏳ 5. System States & Errors (The "Invisible" Pages)
+
+* **`/loading` (Global Skeleton State):** Instead of a spinning wheel, the Bento Grid flashes a soft `#E5E5E5` pulse while data fetches.
+* **`/404` (Not Found):** A perfectly centered, thin gray text saying "Page not found."
+* **`/500` (Server Error):** "The engine is currently offline."
+* **`/maintenance`:** Used when you are pushing big updates to the database.
+
+### ⚖️ 6. The "Boring" Legal Pages
+
+These will just be continuous scrolling text pages formatted in perfectly justified, thin SF Pro text.
+
+* **`/legal/terms`:** Terms of Service.
+* **`/legal/privacy`:** Privacy Policy.
+* **`/legal/cookies`:** Cookie Policy.
+* **`/legal/rules`:** The specific rules of engagement for roasts (no illegal content, 21+ enforcement).
+
+---
+
+### What to do with this list
+
+If you give this list directly to Antigravity, it will automatically create the `React Router` file—the central nervous system that links all these pages together so users can click between them seamlessly.
+
+**Would you like me to write the exact "Router Generation Prompt" for Antigravity so it structures these pages cleanly without adding any heavy, bold navigation bars?**

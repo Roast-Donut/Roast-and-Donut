@@ -1,0 +1,51 @@
+To bring the Roast and Donut aesthetic to life, the animations must feel "organic yet mechanical"—like a high-end watch or a perfectly optimized iOS app. Because we are avoiding bold fonts, we use movement and spacing to create hierarchy.
+
+Here is the comprehensive guide on how every element should behave, mapped to your database architecture.
+
+1. The "Weightless" Page Entry
+When a user navigates to the Main Feed or Trending Feed, the page should not just "appear."
+
+Staggered Fade-In: Bento grid cards from v_main_feed should slide up 10px and fade in one by one (staggered by 0.05s).
+
+Dot Grid Background: The #E5E5E5 dots should gently fade in last, creating the feeling that the content has landed on a technical workspace.
+
+2. Interactive Text & Hover States
+Since we have zero bold fonts, the transition from #737373 to #000 is your primary "Signal" to the user.
+
+The "Ink" Transition: When hovering over a title or author_name, the color change to #000 should take exactly 0.2s with a "linear" curve to feel crisp.
+
+Micro-Scaling: On hover, the text should also scale by a tiny factor (1.02x) to create depth without adding weight.
+
+Link Underlines: Never use standard underlines. Use a 1px #000 bottom border that "grows" from the center outward when hovered.
+
+3. Bento Grid "Magic" Reorganization
+The grid should feel alive. When a user interacts with a card, the layout adapts.
+
+The Expansion Flow: When a user clicks a post from the v_trending_feed to see comments, the card should expand using a Layout Projection (like Framer Motion).
+
+Push & Pull: Neighboring cards should gently slide away to make room for the expanded content, rather than disappearing.
+
+The "Lift" Effect: On hover, a card (#FFF) should lift up 4px and its subtle 1px border should change from #E5E5E5 to #737373.
+
+4. Image & Asset Behaviors
+Images from your user_assets or cover_image_url should feel premium.
+
+Soft Zoom: When hovering over a post card, the cover_image_url should slowly zoom in (1.05x) inside its container.
+
+Glassmorphism Reveal: Overlays (like the "Burn Timer" or "Heat Index") should use a backdrop-filter: blur(12px) and only appear when the user hovers over the image.
+
+Grayscale to Color: Images should sit at 50% saturation. On hover, they should smoothly transition to full color to emphasize active engagement.
+
+5. Data-Driven "System" Animations
+Because you have high-level logic in your DB, use animations to visualize it.
+
+The Burn Countdown: If a post has a burn_at timestamp, show a tiny 1px horizontal progress bar at the bottom of the card that slowly "erodes" as the time approaches.
+
+Heat Map Pulsing: In the v_roast_heat_map, countries with high roast_count should have a soft, #737373 circular pulse radiating from their center.
+
+Interaction "Pop": When clicking a "Star" or "Donut" in post_interactions, the icon should briefly scale up to 1.4x and back down to 1.0x in 0.1s to confirm the action.
+
+6. Loading & Error States
+Skeleton Grids: Instead of a spinner, use empty #F5F5F5 bento boxes that have a shimmering horizontal light effect.
+
+Smooth Error Shakes: If a login fails (failed_attempts), the bento box should do a subtle 5px horizontal shake—no red colors, just a quick movement to signal "Try again."

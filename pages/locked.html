@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Locked — ROAST AND DONUT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 400 !important;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", ui-rounded, "SF Pro Rounded", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F4F4F4;
+            color: #737373;
+            background-image: radial-gradient(#E5E5E5 1px, transparent 1px);
+            background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-entry {
+            animation: fadeSlideUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="text-center max-w-sm px-6 animate-entry">
+        <!-- Obsidian-style lockout card -->
+        <div class="bg-white border border-[#E5E5E5] rounded-2xl p-10">
+            <span class="material-symbols-outlined text-[#FFCC00] text-5xl mb-6 block"
+                style="text-shadow: 0 0 12px rgba(255, 204, 0, 0.3);">lock</span>
+            <h1 class="text-xl text-slate-900 mb-3">Account Suspended</h1>
+            <p class="text-sm text-[#737373] mb-4 leading-relaxed" id="lockMessage">
+                Security threshold reached. Access is temporarily suspended.
+            </p>
+            <p class="text-xs text-[#737373] mb-8" style="animation: pulse 2s infinite;">
+                System cooling down...
+            </p>
+            <a href="login.html" class="text-xs text-[#737373] hover:text-black transition-colors">Try logging in
+                again</a>
+        </div>
+    </main>
+</body>
+
+</html>
